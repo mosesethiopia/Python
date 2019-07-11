@@ -1,0 +1,117 @@
+Flask :- 
+	It is a python micro framework that possible to get a website up and running. 
+	It uses Jinja2 templating, is RESTful and has a built-in debugger.
+Steps for Flask
+	Install flask:
+	pip install Flask
+	Create a file called application.py in your working directory:
+# Import creates a flask web server and render template () method looks for html files
+from flask import Flask, render_template
+# We are creating an instance of flask class and call it app.
+app = Flask(__name__)
+@app.route("/")
+def home():
+    return render_template("home.html")
+    # return "Hello, World!"
+@app.route("/about)
+def about():
+    return render_template("about.html")
+@app.route("/Moses")
+def salvador():
+    return "Hello, Moses"
+# _name_ means this current file. The conditional statement prevents other scripts from running.
+# debug = true allows python errors to appear on the web page and help to trace the errors.
+if __name__ == "__main__":
+    app.run(debug=True)
+
+	Run the web app using this command:
+	python application.py
+ * Running on http://localhost:5000/
+	Open http://localhost:5000/ in your browser, and “Hello World!” should appear.
+
+Structure of basic flask web application:
+The below structure will be what you will have as you progress on flask. 
+ 
+	application.py:- it is the routing file — all pages of your website will be directed from here.
+	Templates: - All of your html files that you serve (based on your routing in the application.py file) will live here. Flask only reads html from this folder only.
+
+	Static: - All of your static files live here and can have any number of sub folders —
+	All of your css, js, icons, images, etc files. To reference these files to your working html you need to path them. Below is an example of reference to a css style to a given html template:
+<link href=”/static/path/to/reference.css” rel=”stylesheet”>
+
+	Modules:-All of your back-end custom code — 
+	You can structure this as more folders within your working project directory or sub folders. This follows normal python principles of importing code to other python files
+
+	Venv:- The virtual environment that isolates your python package dependencies (not necessary, but makes your life a lot easier at time of deployment)
+	If you are using python 3 venv module will create virtual environments. 
+	Else to create it:
+o	pip install virtualenv
+o	cd my_project_folder
+o	virtualenv venv
+	To activate it:
+o	source venv/bin/activate
+	To run your web application:-
+o	python application.py
+Since you are now running your web application in the virtual environment you may need to “pip install (package x)” so whatever 3rd party python package you are using in your web application is now sourced in venv.
+	To stop running your web application:- on the command line hit — “control+c”
+	To deactivate virtual environment and return to working directory of your project:
+o	Deactivate
+Home.html 
+<! DOCTYPE html>
+<html lang="en" dir="ltr">
+<head><meta charset="utf-8"><title>Flask Tutorial</title>
+</head>
+<body><h1> My First Try Using Flask </h1><p> Flask is Fun </p>
+</body></html>
+About.html
+<! DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8"><title>About Flask</title>
+</head>
+<body><h1> About Flask </h1><p> Flask is a micro web framework written in Python. </p><p> Applications that use the Flask framework include Pinterest, LinkedIn, and the community web page for Flask itself. </p>
+</body></html>
+Template.html
+<! DOCTYPE html>
+<html lang="en" dir="ltr">
+<head><meta charset="utf-8"><title>Flask Parent Template</title>
+<link rel="stylesheet" href="{{ url_for('static',     filename='css/template.css') }}">
+</head>
+<body>
+<header>
+<div class="container">
+<h1 class="logo">First Web App</h1>
+<strong><nav>
+<ul class="menu">
+<li><a href="{{ url_for('home') }}">Home</a></li>
+<li><a href="{{ url_for('about') }}">About</a></li>
+</ul></nav></strong>
+</div>
+</header>
+{% block content %}
+{% endblock %}
+</body></html>
+The home.html can be convert to the below.
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head><meta charset="utf-8"><title>Flask Tutorial</title></head>
+<body>
+	{% extends "template.html" %}
+{% block content %}
+<h1> My First Try Using Flask </h1>
+<p> Flask is Fun </p>
+{% endblock %}
+</body></html>
+The about.html can also be convert to below.
+<! DOCTYPE html>
+<html lang="en" dir="ltr">
+<head><meta charset="utf-8"><title>About Flask</title>
+</head>
+<body>
+{% extends "template.html" %}
+{% block content %}
+<h1> About Flask </h1>
+<p> Flask is a micro web framework written in Python.</p>
+<p> Applications that use the Flask framework include Pinterest, LinkedIn, and the community web page for Flask itself. </p>
+   {% endblock %}
+</body></html>
